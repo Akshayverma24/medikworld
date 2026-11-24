@@ -1,0 +1,15 @@
+{
+  "name": "medfinder-workspace",
+  "version": "1.0.0",
+  "description": "MedFinder – Medicine Availability and Pharmacy Comparison Platform",
+  "scripts": {
+    "server": "cd server && npm start",
+    "server:dev": "cd server && npm run dev",
+    "seed": "cd server && npm run seed",
+    "client": "cd client && npm run dev",
+    "build:client": "cd client && npm run build"
+  },
+  "keywords": ["medfinder", "pharmacy", "medicine", "comparison", "react", "express", "mongodb"],
+  "author": "MedFinder Team",
+  "license": "ISC"
+}
