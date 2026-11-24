@@ -61,11 +61,6 @@ MedFinder helps users find medicines available at nearby registered pharmacies, 
    - Update order status: *Pending* → *Confirmed* → *Ready for Pickup* → *Completed*.
    - Add notes to customer (e.g. "Kept aside at counter #2").
    - Restores stock automatically if a reservation is cancelled.
-
-### For College Viva / Project Presentation:
-- **Dedicated Viva Guide (`/viva-guide`):** Built-in interactive page presenting project architecture, ER diagram breakdown, REST API endpoints, and 10 high-yield viva questions with prepared answers.
-- **Demo Quick-Fill Buttons:** On the Login page, click **"Customer Demo"** or **"Pharmacy Owner"** to auto-fill credentials for seamless viva defense.
-
 ---
 
 ## 3. Project Folder Structure
@@ -102,103 +97,9 @@ medfinder/
 │
 ├── package.json                # Workspace helper scripts
 └── README.md
-```
 
----
 
-## 4. Setup and Installation
-
-### Prerequisites:
-- **Node.js** (v18 or higher recommended)
-- **MongoDB Atlas** account (or local MongoDB running)
-
-### Step 1: Configure Backend Environment
-1. Navigate to the `server/` directory:
-   ```bash
-   cd server
-   ```
-2. Open `server/.env` and update `MONGO_URI` with your MongoDB Atlas connection string:
-   ```env
-   PORT=5000
-   MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/medfinder?retryWrites=true&w=majority
-   JWT_SECRET=medfinder_super_secret_jwt_key_2026
-   CLIENT_URL=http://localhost:5173
-   ```
-   *(If you are running MongoDB locally, default `mongodb://127.0.0.1:27017/medfinder` works out of the box).*
-
-### Step 2: Seed the Database with Realistic Demo Data
-Populate 18+ high-demand medicines, 4 registered partner pharmacies, and sample reservations:
-```bash
-cd server
-npm run seed
-```
-
-### Step 3: Start the Backend Server
-```bash
-cd server
-npm start
-```
-The backend API starts on **http://localhost:5000**.
-Check health endpoint: `http://localhost:5000/api/health`.
-
-### Step 4: Start the Frontend Client
-Open a separate terminal window:
-```bash
-cd client
-npm run dev
-```
-Open **http://localhost:5173** in your browser.
-
----
-
-## 5. Pre-Seeded Demo Credentials
-
-| Role | Email | Password | Access Details |
-|------|-------|----------|----------------|
-| **Customer / Patient** | `rahul@medfinder.com` | `password123` | Searches medicines, compares prices, books reservations |
-| **Pharmacy Partner 1** | `apollo@medfinder.com` | `password123` | Apollo Pharmacy (Indiranagar) - Manages stock & orders |
-| **Pharmacy Partner 2** | `medplus@medfinder.com` | `password123` | MedPlus Mart (Koramangala) - Manages stock & orders |
-| **Pharmacy Partner 3** | `wellness@medfinder.com` | `password123` | Wellness Forever (HSR Layout) - Manages stock & orders |
-| **System Admin** | `admin@medfinder.com` | `admin123` | Platform-wide administrative capabilities |
-
-*(You can also use the **Examiner Quick Fill** buttons on the Login page).*
-
----
-
-## 6. REST API Endpoints Overview
-
-### Authentication (`/api/auth`)
-- `POST /api/auth/register` - Create user or pharmacy partner account (Zod validated)
-- `POST /api/auth/login` - Authenticate and receive JWT token
-- `GET /api/auth/me` - Fetch authenticated user profile & pharmacy details
-
-### Medicines (`/api/medicines`)
-- `GET /api/medicines` - Search medicines with category, dosage form, and price sorting
-- `GET /api/medicines/categories` - Category counts aggregation
-- `GET /api/medicines/:id` - Full drug info + sorted pharmacy comparison list
-- `POST /api/medicines` - Add medicine (Protected)
-
-### Pharmacies (`/api/pharmacies`)
-- `GET /api/pharmacies` - List all registered pharmacies with city/keyword filter
-- `GET /api/pharmacies/:id` - Pharmacy profile and in-store stock catalog
-- `PUT /api/pharmacies/:id` - Update pharmacy details (Protected: Owner)
-
-### Inventory (`/api/inventory`)
-- `GET /api/inventory/my` - Fetch logged-in pharmacy's stock items & low stock count
-- `POST /api/inventory` - Add or update medicine in store inventory
-- `PUT /api/inventory/:id` - Update price and stock count
-- `DELETE /api/inventory/:id` - Remove medicine from store inventory
-
-### Reservations (`/api/reservations`)
-- `POST /api/reservations` - Book medicine for pickup (deducts stock)
-- `GET /api/reservations/user` - View customer's reservations
-- `GET /api/reservations/pharmacy` - View pharmacy's incoming customer reservations
-- `PUT /api/reservations/:id/status` - Update reservation status (restores stock if cancelled)
-- `GET /api/reservations/stats` - Platform dashboard summary numbers
-
----
-
-## 7. Database Entity Relationship (ER) Summary
+## 3. Database Entity Relationship (ER) Summary
 
 ```
    [User] (1) <────── (1) [Pharmacy]
@@ -211,14 +112,3 @@ Open **http://localhost:5173** in your browser.
  [Reservation] ──────────────┘
 ```
 
-1. **User:** Holds credentials and role (`user`, `pharmacy`, `admin`).
-2. **Pharmacy:** Linked to owner User via `owner` reference.
-3. **Medicine:** Independent catalog of master medicines, generic formulas, and MRPs.
-4. **Inventory (Associative Junction):** Maps `Pharmacy` and `Medicine` with counter selling price, real-time stock units, and active status.
-5. **Reservation:** Records pickup booking made by `User` at a `Pharmacy` for a `Medicine`.
-
----
-
-## 8. College Viva Defense Questions
-
-For a full set of 10 high-yield oral exam questions with detailed answers, navigate to the **Viva Guide (`/viva-guide`)** tab directly in the running application!
